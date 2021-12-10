@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="62d73137a27f4d5eb13744bbcffe4a5d" Name="Diagram1">
+        <EntityTypeShape EntityType="AutotestsModel.AutoTest" Width="1.5" PointX="3" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="AutotestsModel.Client_individual" Width="1.5" PointX="3" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AutotestsModel.Client_organization" Width="1.5" PointX="3" PointY="9" IsExpanded="true" />
+        <EntityTypeShape EntityType="AutotestsModel.Orders" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="AutotestsModel.Rezults" Width="1.5" PointX="0.75" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="AutotestsModel.Worker" Width="1.5" PointX="3" PointY="12" IsExpanded="true" />
+        <AssociationConnector Association="AutotestsModel.FK__AutoTest__Code_r__286302EC" ManuallyRouted="false" />
+        <AssociationConnector Association="AutotestsModel.FK__Orders__Code_Aut__33D4B598" ManuallyRouted="false" />
+        <AssociationConnector Association="AutotestsModel.FK__Orders__Code_cli__31EC6D26" ManuallyRouted="false" />
+        <AssociationConnector Association="AutotestsModel.FK__Orders__Code_cli__32E0915F" ManuallyRouted="false" />
+        <AssociationConnector Association="AutotestsModel.FK__Orders__Code_wor__30F848ED" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

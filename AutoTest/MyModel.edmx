@@ -1,0 +1,423 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище AutotestsModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AutoTest">
+          <Key>
+            <PropertyRef Name="Code_test" />
+          </Key>
+          <Property Name="Code_test" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title_test" Type="varchar" MaxLength="80" Nullable="false" />
+          <Property Name="Importance_test" Type="varchar" MaxLength="80" Nullable="false" />
+          <Property Name="Duration_test" Type="varchar" MaxLength="80" />
+          <Property Name="Descriptions" Type="varchar" MaxLength="80" />
+          <Property Name="Code_rezult" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Client_individual">
+          <Key>
+            <PropertyRef Name="Code_client_ind" />
+          </Key>
+          <Property Name="Code_client_ind" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Familia_client" Type="varchar" MaxLength="80" Nullable="false" />
+          <Property Name="Name_client" Type="varchar" MaxLength="80" Nullable="false" />
+          <Property Name="Patronymic_client" Type="varchar" MaxLength="80" Nullable="false" />
+          <Property Name="Passport" Type="int" Nullable="false" />
+          <Property Name="Adress" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Telephone" Type="varchar" MaxLength="80" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Client_organization">
+          <Key>
+            <PropertyRef Name="Code_client_org" />
+          </Key>
+          <Property Name="Code_client_org" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title_client" Type="varchar" MaxLength="80" Nullable="false" />
+          <Property Name="Representative" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Adress" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Telephone" Type="varchar" MaxLength="80" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Orders">
+          <Key>
+            <PropertyRef Name="Code_order" />
+          </Key>
+          <Property Name="Code_order" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Code_worker" Type="int" Nullable="false" />
+          <Property Name="Code_client_ind" Type="int" />
+          <Property Name="Code_client_org" Type="int" />
+          <Property Name="Code_Autotest" Type="int" Nullable="false" />
+          <Property Name="Registration_date" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Rezults">
+          <Key>
+            <PropertyRef Name="Code_rezult" />
+          </Key>
+          <Property Name="Code_rezult" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Status_rezult" Type="varchar" MaxLength="80" Nullable="false" />
+          <Property Name="Descriptions" Type="varchar" MaxLength="1000" />
+        </EntityType>
+        <EntityType Name="Worker">
+          <Key>
+            <PropertyRef Name="Code_worker" />
+          </Key>
+          <Property Name="Code_worker" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Familia_worker" Type="varchar" MaxLength="80" Nullable="false" />
+          <Property Name="Name_worker" Type="varchar" MaxLength="80" Nullable="false" />
+          <Property Name="Patronymic_worker" Type="varchar" MaxLength="80" Nullable="false" />
+          <Property Name="Passport" Type="int" Nullable="false" />
+          <Property Name="Telephone" Type="varchar" MaxLength="80" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__AutoTest__Code_r__286302EC">
+          <End Role="Rezults" Type="Self.Rezults" Multiplicity="1" />
+          <End Role="AutoTest" Type="Self.AutoTest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rezults">
+              <PropertyRef Name="Code_rezult" />
+            </Principal>
+            <Dependent Role="AutoTest">
+              <PropertyRef Name="Code_rezult" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Orders__Code_Aut__33D4B598">
+          <End Role="AutoTest" Type="Self.AutoTest" Multiplicity="1" />
+          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AutoTest">
+              <PropertyRef Name="Code_test" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="Code_Autotest" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Orders__Code_cli__31EC6D26">
+          <End Role="Client_individual" Type="Self.Client_individual" Multiplicity="0..1" />
+          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client_individual">
+              <PropertyRef Name="Code_client_ind" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="Code_client_ind" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Orders__Code_cli__32E0915F">
+          <End Role="Client_organization" Type="Self.Client_organization" Multiplicity="0..1" />
+          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client_organization">
+              <PropertyRef Name="Code_client_org" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="Code_client_org" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Orders__Code_wor__30F848ED">
+          <End Role="Worker" Type="Self.Worker" Multiplicity="1" />
+          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Worker">
+              <PropertyRef Name="Code_worker" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="Code_worker" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище AutotestsModelContainer">
+          <EntitySet Name="AutoTest" EntityType="Self.AutoTest" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Client_individual" EntityType="Self.Client_individual" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Client_organization" EntityType="Self.Client_organization" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Orders" EntityType="Self.Orders" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Rezults" EntityType="Self.Rezults" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Worker" EntityType="Self.Worker" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__AutoTest__Code_r__286302EC" Association="Self.FK__AutoTest__Code_r__286302EC">
+            <End Role="Rezults" EntitySet="Rezults" />
+            <End Role="AutoTest" EntitySet="AutoTest" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Orders__Code_Aut__33D4B598" Association="Self.FK__Orders__Code_Aut__33D4B598">
+            <End Role="AutoTest" EntitySet="AutoTest" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Orders__Code_cli__31EC6D26" Association="Self.FK__Orders__Code_cli__31EC6D26">
+            <End Role="Client_individual" EntitySet="Client_individual" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Orders__Code_cli__32E0915F" Association="Self.FK__Orders__Code_cli__32E0915F">
+            <End Role="Client_organization" EntitySet="Client_organization" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Orders__Code_wor__30F848ED" Association="Self.FK__Orders__Code_wor__30F848ED">
+            <End Role="Worker" EntitySet="Worker" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="AutotestsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="AutoTest">
+          <Key>
+            <PropertyRef Name="Code_test" />
+          </Key>
+          <Property Name="Code_test" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title_test" Type="String" MaxLength="80" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Importance_test" Type="String" MaxLength="80" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Duration_test" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Name="Descriptions" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Name="Code_rezult" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Rezults" Relationship="Self.FK__AutoTest__Code_r__286302EC" FromRole="AutoTest" ToRole="Rezults" />
+          <NavigationProperty Name="Orders" Relationship="Self.FK__Orders__Code_Aut__33D4B598" FromRole="AutoTest" ToRole="Orders" />
+        </EntityType>
+        <EntityType Name="Client_individual">
+          <Key>
+            <PropertyRef Name="Code_client_ind" />
+          </Key>
+          <Property Name="Code_client_ind" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Familia_client" Type="String" MaxLength="80" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Name_client" Type="String" MaxLength="80" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Patronymic_client" Type="String" MaxLength="80" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Passport" Type="Int32" Nullable="false" />
+          <Property Name="Adress" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Telephone" Type="String" MaxLength="80" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Orders" Relationship="Self.FK__Orders__Code_cli__31EC6D26" FromRole="Client_individual" ToRole="Orders" />
+        </EntityType>
+        <EntityType Name="Client_organization">
+          <Key>
+            <PropertyRef Name="Code_client_org" />
+          </Key>
+          <Property Name="Code_client_org" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title_client" Type="String" MaxLength="80" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Representative" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Adress" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Telephone" Type="String" MaxLength="80" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Orders" Relationship="Self.FK__Orders__Code_cli__32E0915F" FromRole="Client_organization" ToRole="Orders" />
+        </EntityType>
+        <EntityType Name="Orders">
+          <Key>
+            <PropertyRef Name="Code_order" />
+          </Key>
+          <Property Name="Code_order" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Code_worker" Type="Int32" Nullable="false" />
+          <Property Name="Code_client_ind" Type="Int32" />
+          <Property Name="Code_client_org" Type="Int32" />
+          <Property Name="Code_Autotest" Type="Int32" Nullable="false" />
+          <Property Name="Registration_date" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="AutoTest" Relationship="Self.FK__Orders__Code_Aut__33D4B598" FromRole="Orders" ToRole="AutoTest" />
+          <NavigationProperty Name="Client_individual" Relationship="Self.FK__Orders__Code_cli__31EC6D26" FromRole="Orders" ToRole="Client_individual" />
+          <NavigationProperty Name="Client_organization" Relationship="Self.FK__Orders__Code_cli__32E0915F" FromRole="Orders" ToRole="Client_organization" />
+          <NavigationProperty Name="Worker" Relationship="Self.FK__Orders__Code_wor__30F848ED" FromRole="Orders" ToRole="Worker" />
+        </EntityType>
+        <EntityType Name="Rezults">
+          <Key>
+            <PropertyRef Name="Code_rezult" />
+          </Key>
+          <Property Name="Code_rezult" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Status_rezult" Type="String" MaxLength="80" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Descriptions" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="AutoTest" Relationship="Self.FK__AutoTest__Code_r__286302EC" FromRole="Rezults" ToRole="AutoTest" />
+        </EntityType>
+        <EntityType Name="Worker">
+          <Key>
+            <PropertyRef Name="Code_worker" />
+          </Key>
+          <Property Name="Code_worker" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Familia_worker" Type="String" MaxLength="80" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Name_worker" Type="String" MaxLength="80" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Patronymic_worker" Type="String" MaxLength="80" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Passport" Type="Int32" Nullable="false" />
+          <Property Name="Telephone" Type="String" MaxLength="80" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Orders" Relationship="Self.FK__Orders__Code_wor__30F848ED" FromRole="Worker" ToRole="Orders" />
+        </EntityType>
+        <Association Name="FK__AutoTest__Code_r__286302EC">
+          <End Role="Rezults" Type="Self.Rezults" Multiplicity="1" />
+          <End Role="AutoTest" Type="Self.AutoTest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rezults">
+              <PropertyRef Name="Code_rezult" />
+            </Principal>
+            <Dependent Role="AutoTest">
+              <PropertyRef Name="Code_rezult" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Orders__Code_Aut__33D4B598">
+          <End Role="AutoTest" Type="Self.AutoTest" Multiplicity="1" />
+          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AutoTest">
+              <PropertyRef Name="Code_test" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="Code_Autotest" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Orders__Code_cli__31EC6D26">
+          <End Role="Client_individual" Type="Self.Client_individual" Multiplicity="0..1" />
+          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client_individual">
+              <PropertyRef Name="Code_client_ind" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="Code_client_ind" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Orders__Code_cli__32E0915F">
+          <End Role="Client_organization" Type="Self.Client_organization" Multiplicity="0..1" />
+          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client_organization">
+              <PropertyRef Name="Code_client_org" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="Code_client_org" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Orders__Code_wor__30F848ED">
+          <End Role="Worker" Type="Self.Worker" Multiplicity="1" />
+          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Worker">
+              <PropertyRef Name="Code_worker" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="Code_worker" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AutotestsEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AutoTest" EntityType="Self.AutoTest" />
+          <EntitySet Name="Client_individual" EntityType="Self.Client_individual" />
+          <EntitySet Name="Client_organization" EntityType="Self.Client_organization" />
+          <EntitySet Name="Orders" EntityType="Self.Orders" />
+          <EntitySet Name="Rezults" EntityType="Self.Rezults" />
+          <EntitySet Name="Worker" EntityType="Self.Worker" />
+          <AssociationSet Name="FK__AutoTest__Code_r__286302EC" Association="Self.FK__AutoTest__Code_r__286302EC">
+            <End Role="Rezults" EntitySet="Rezults" />
+            <End Role="AutoTest" EntitySet="AutoTest" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Orders__Code_Aut__33D4B598" Association="Self.FK__Orders__Code_Aut__33D4B598">
+            <End Role="AutoTest" EntitySet="AutoTest" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Orders__Code_cli__31EC6D26" Association="Self.FK__Orders__Code_cli__31EC6D26">
+            <End Role="Client_individual" EntitySet="Client_individual" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Orders__Code_cli__32E0915F" Association="Self.FK__Orders__Code_cli__32E0915F">
+            <End Role="Client_organization" EntitySet="Client_organization" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Orders__Code_wor__30F848ED" Association="Self.FK__Orders__Code_wor__30F848ED">
+            <End Role="Worker" EntitySet="Worker" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище AutotestsModelContainer" CdmEntityContainer="AutotestsEntities">
+          <EntitySetMapping Name="AutoTest">
+            <EntityTypeMapping TypeName="AutotestsModel.AutoTest">
+              <MappingFragment StoreEntitySet="AutoTest">
+                <ScalarProperty Name="Code_test" ColumnName="Code_test" />
+                <ScalarProperty Name="Title_test" ColumnName="Title_test" />
+                <ScalarProperty Name="Importance_test" ColumnName="Importance_test" />
+                <ScalarProperty Name="Duration_test" ColumnName="Duration_test" />
+                <ScalarProperty Name="Descriptions" ColumnName="Descriptions" />
+                <ScalarProperty Name="Code_rezult" ColumnName="Code_rezult" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Client_individual">
+            <EntityTypeMapping TypeName="AutotestsModel.Client_individual">
+              <MappingFragment StoreEntitySet="Client_individual">
+                <ScalarProperty Name="Code_client_ind" ColumnName="Code_client_ind" />
+                <ScalarProperty Name="Familia_client" ColumnName="Familia_client" />
+                <ScalarProperty Name="Name_client" ColumnName="Name_client" />
+                <ScalarProperty Name="Patronymic_client" ColumnName="Patronymic_client" />
+                <ScalarProperty Name="Passport" ColumnName="Passport" />
+                <ScalarProperty Name="Adress" ColumnName="Adress" />
+                <ScalarProperty Name="Telephone" ColumnName="Telephone" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Client_organization">
+            <EntityTypeMapping TypeName="AutotestsModel.Client_organization">
+              <MappingFragment StoreEntitySet="Client_organization">
+                <ScalarProperty Name="Code_client_org" ColumnName="Code_client_org" />
+                <ScalarProperty Name="Title_client" ColumnName="Title_client" />
+                <ScalarProperty Name="Representative" ColumnName="Representative" />
+                <ScalarProperty Name="Adress" ColumnName="Adress" />
+                <ScalarProperty Name="Telephone" ColumnName="Telephone" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Orders">
+            <EntityTypeMapping TypeName="AutotestsModel.Orders">
+              <MappingFragment StoreEntitySet="Orders">
+                <ScalarProperty Name="Code_order" ColumnName="Code_order" />
+                <ScalarProperty Name="Code_worker" ColumnName="Code_worker" />
+                <ScalarProperty Name="Code_client_ind" ColumnName="Code_client_ind" />
+                <ScalarProperty Name="Code_client_org" ColumnName="Code_client_org" />
+                <ScalarProperty Name="Code_Autotest" ColumnName="Code_Autotest" />
+                <ScalarProperty Name="Registration_date" ColumnName="Registration_date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Rezults">
+            <EntityTypeMapping TypeName="AutotestsModel.Rezults">
+              <MappingFragment StoreEntitySet="Rezults">
+                <ScalarProperty Name="Code_rezult" ColumnName="Code_rezult" />
+                <ScalarProperty Name="Status_rezult" ColumnName="Status_rezult" />
+                <ScalarProperty Name="Descriptions" ColumnName="Descriptions" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Worker">
+            <EntityTypeMapping TypeName="AutotestsModel.Worker">
+              <MappingFragment StoreEntitySet="Worker">
+                <ScalarProperty Name="Code_worker" ColumnName="Code_worker" />
+                <ScalarProperty Name="Familia_worker" ColumnName="Familia_worker" />
+                <ScalarProperty Name="Name_worker" ColumnName="Name_worker" />
+                <ScalarProperty Name="Patronymic_worker" ColumnName="Patronymic_worker" />
+                <ScalarProperty Name="Passport" ColumnName="Passport" />
+                <ScalarProperty Name="Telephone" ColumnName="Telephone" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
